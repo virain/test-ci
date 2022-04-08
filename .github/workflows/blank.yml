@@ -22,6 +22,6 @@ jobs:
       - name: 保存新版本
         if: ${{ env.Application_Version }} == ${{ env.new_version }}
         run: |
-          echo "Application_Version = "$new_version > version.pkrvars.hcl
+          echo "Application_Version = "${{ env.new_version }} > version.pkrvars.hcl
           cat version.pkrvars.hcl
           ls
