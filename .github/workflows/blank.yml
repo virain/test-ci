@@ -44,16 +44,4 @@ jobs:
           credentials: https://virain:${{ secrets.PERSONAL_TOKEN }}@github.com/
 
       - name: echo
-        run: echo ${{ env.new_version }}
-
-  Build_1:
-    runs-on: ubuntu-latest
-    needs: [CheckVersion,Build]
-    steps:
-      - uses: actions/checkout@v3
-
-  Build_2:
-    runs-on: ubuntu-latest
-    needs: [CheckVersion,Build]
-    steps:
-      - uses: actions/checkout@v3
+        run: echo ${{ github }}
