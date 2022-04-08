@@ -19,13 +19,13 @@ jobs:
           echo `cat version.pkrvars.hcl` > $GITHUB_ENV
           
       - name: 获取最新版本
-        id: get_new_version
         run: |
           new_version=$(curl -s https://api.github.com/repos/WordPress/WordPress/tags | jq '.[0].name')
           echo "new_version="$new_version > $GITHUB_ENV
           
       - name: 保存新版本
         if: ${{ env.Application_Version!=env.new_version }}
+        id: has_new_version
         run: |
           echo 'Application_Version=${{ env.new_version }}' > version.pkrvars.hcl
           git config --local user.email "xu_junkai@hotmail.com"
@@ -35,7 +35,7 @@ jobs:
           echo "::set-output name=has_new_version == 'true'"
 
     outputs: 
-      has_new_version: ${{ steps.get_new_version.outputs.has_new_version }}
+      has_new_version: ${{ steps.has_new_version.outputs.has_new_version }}
       
   Build:
     runs-on: ubuntu-latest
