@@ -2,7 +2,7 @@ name: Packer Build
 
 on:
   schedule:
-    - cron: '1 * * * *'
+    - cron: '*/1 * * * *'
       
 jobs:
   CheckVersion:
