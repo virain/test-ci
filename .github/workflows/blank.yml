@@ -49,4 +49,4 @@ jobs:
           credentials: https://virain:${{ secrets.PERSONAL_TOKEN }}@github.com/
 
       - name: echo
-        run: echo ${{needs.CheckVersion.outputs.new_version}}
+        run: echo ${{ needs.CheckVersion.outputs.new_version }}
