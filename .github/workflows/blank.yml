@@ -35,7 +35,7 @@ jobs:
 
   Build:
     runs-on: ubuntu-latest
-
+    needs: CheckVersion
     steps:
       - uses: actions/checkout@v3
       # github 认证
