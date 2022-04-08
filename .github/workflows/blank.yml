@@ -43,21 +43,23 @@ jobs:
     if: ${{ needs.CheckVersion.outputs.has_new_version == 'true' }} # 是否有新版本
     strategy:
       matrix:
-        phpenv: 
-          - LNMP
-          - LAMP
         cloud:
           - alicloud-ecs
           - tencentcloud-cvm
         release:
           - CentOS
           - Ubuntu
+        phpenv: 
+          - LNMP_
+          - LAMP_
     steps:
       - uses: actions/checkout@v3
 
       - name: packer build
-        run: echo "packer build --only='$cloud.$phpenv_$release' -var-file=version.pkrvars.hcl packer.hcl "
+        run: echo "packer build --only='$cloud.$phpenv$release' -var-file=version.pkrvars.hcl packer.hcl "
         env:
-          phpenv: ${{ matrix.phpenv }}
           cloud: ${{ matrix.cloud }}
           release: ${{ matrix.release }}
+          phpenv: ${{ matrix.phpenv }}
+          
+          
