@@ -32,8 +32,8 @@ jobs:
           git config --local user.name "virain"
           git commit -m  "update $(echo ${{ env.new_version }})" -a
           git push
-          echo "::set-output name=has_new_version == 'true'"
-
+          echo "::set-output name=has_new_version::true"
+        
     outputs: 
       has_new_version: ${{ steps.has_new_version.outputs.has_new_version }}
       
