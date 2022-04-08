@@ -20,8 +20,8 @@ jobs:
           echo "new_version="$new_version > $GITHUB_ENV
           
       - name: 保存新版本
-        if: ${{ env.Application_Version==env.new_version }}
+        if: ${{ env.Application_Version!=env.new_version }}
         run: |
           echo ${{ env.new_version }}
-          echo 'Application_Version = ${{ env.new_version }}' > version.pkrvars.hcl
+          echo 'Application_Version=${{ env.new_version }}' > version.pkrvars.hcl
           cat version.pkrvars.hcl
