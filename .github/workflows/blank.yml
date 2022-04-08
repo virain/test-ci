@@ -13,6 +13,7 @@ jobs:
       - uses: de-vri-es/setup-git-credentials@v2
         with:
           credentials: https://virain:${{ secrets.PERSONAL_TOKEN }}@github.com/
+
       - name: 获取当前版本
         run: |
           cat version.pkrvars.hcl
@@ -31,3 +32,16 @@ jobs:
           git config --local user.name "virain"
           git commit -m  "update $(echo ${{ env.new_version }})" -a
           git push
+
+  Build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      # github 认证
+      - uses: de-vri-es/setup-git-credentials@v2
+        with:
+          credentials: https://virain:${{ secrets.PERSONAL_TOKEN }}@github.com/
+
+      - name: echo
+        run: echo ${{ env.new_version }}
