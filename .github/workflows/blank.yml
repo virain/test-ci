@@ -43,7 +43,7 @@ jobs:
     if: ${{ needs.CheckVersion.outputs.has_new_version == 'true' }} # 是否有新版本
     strategy:
       matrix:
-        webserver_env: 
+        phpenv: 
           - LNMP
           - LAMP
         cloud:
@@ -56,8 +56,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: packer build
-        run: echo "packer build --only='$cloud.$webserver_env_$release'"
+        run: echo "packer build --only='$cloud.$phpenv_$release' -var-file=version.pkrvars.hcl packer.hcl "
         env:
-          webserver_env: ${{ matrix.webserver_env }}
+          phpenv: ${{ matrix.phpenv }}
           cloud: ${{ matrix.cloud }}
           release: ${{ matrix.release }}
