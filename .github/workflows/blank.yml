@@ -1,8 +1,7 @@
 name: Packer Build
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+  push
       
 jobs:
   CheckVersion:
@@ -41,10 +40,24 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     needs: CheckVersion
-    if: ${{ needs.CheckVersion.outputs.has_new_version == 'true' }}
+    if: ${{ needs.CheckVersion.outputs.has_new_version == 'true' }} # 是否有新版本
+    strategy:
+      matrix:
+        webserver_env: 
+          - LNMP
+          - LAMP
+        cloud:
+          - alicloud-ecs
+          - tencentcloud-cvm
+        release:
+          - CentOS
+          - Ubuntu
     steps:
       - uses: actions/checkout@v3
-      # github 认证
-      - uses: de-vri-es/setup-git-credentials@v2
-        with:
-          credentials: https://virain:${{ secrets.PERSONAL_TOKEN }}@github.com/
+
+      - name: packer build
+        run: echo "packer build --only='$cloud.$webserver_env_$release'"
+        env:
+          webserver_env: ${{ matrix.webserver_env }}
+          cloud: ${{ matrix.cloud }}
+          release: ${{ matrix.release }}
