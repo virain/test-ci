@@ -23,7 +23,7 @@ jobs:
         run: |
           new_version=$(curl -s https://api.github.com/repos/WordPress/WordPress/tags | jq '.[0].name')
           echo "new_version="$new_version > $GITHUB_ENV
-          echo $new_version
+          echo "::set-output name=new_version::$new_version"
           
       - name: 保存新版本
         if: ${{ env.Application_Version!=env.new_version }}
