@@ -15,8 +15,6 @@ jobs:
           echo `cat version.pkrvars.hcl` > $GITHUB_ENV
           
       - name: 获取最新版本
-        # ${{ env.Application_Version }}
-        if: ${{ env.Application_Version }}
         run: |
           new_version=$(curl -s https://api.github.com/repos/WordPress/WordPress/tags | jq '.[0].name')
           echo "new_version = "$new_version > > $GITHUB_ENV
