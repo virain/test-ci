@@ -6,7 +6,6 @@ on:
 jobs:
   CheckVersion:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       # github 认证
@@ -20,9 +19,11 @@ jobs:
           echo `cat version.pkrvars.hcl` > $GITHUB_ENV
           
       - name: 获取最新版本
+        id: get_new_version
         run: |
           new_version=$(curl -s https://api.github.com/repos/WordPress/WordPress/tags | jq '.[0].name')
           echo "new_version="$new_version > $GITHUB_ENV
+          echo $new_version
           
       - name: 保存新版本
         if: ${{ env.Application_Version!=env.new_version }}
@@ -32,6 +33,10 @@ jobs:
           git config --local user.name "virain"
           git commit -m  "update $(echo ${{ env.new_version }})" -a
           git push
+    outputs: 
+      new_version: ${{ steps.get_new_version.outputs.new_version }}
+      
+
 
   Build:
     runs-on: ubuntu-latest
@@ -44,4 +49,4 @@ jobs:
           credentials: https://virain:${{ secrets.PERSONAL_TOKEN }}@github.com/
 
       - name: echo
-        run: echo ${{ github.env }}
+        run: echo ${{needs.CheckVersion.outputs.new_version}}
